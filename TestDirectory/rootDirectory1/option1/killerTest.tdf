@@ -1,0 +1,2 @@
+ARGS:/dev/random 42
+RES:/dev/random 42
