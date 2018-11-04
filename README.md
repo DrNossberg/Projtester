@@ -1,5 +1,4 @@
-Hello, and welcome here in this ProjTeser README!
-
+Hello, and welcome here in this ProjTeser README! :D
 
 This is the ProjTester, an EPITECH Programme made during my SYNTHESIS_POOL.
 
@@ -10,12 +9,15 @@ Here the ./projTester -h :
 USAGE:
 	./projTester TRD [BFT] [outputFile]/[option]
 
-DESCRIPTION
+
+DESCRIPTION :
+
 	TRD		root directory of all the tests
 	BFT		binary file to be tested
 	outputFile	file in witch the ressult is printed
-	Option :
-		-s	silence; don't print passed tests
+	Option :	
+
+		-s	silence; don't print passed tests		
 		-l	debugging; display the name of all failed tests
 		-v	optimisation; execute valgrind on all testIN BUILDING
 		-f	failed; print details of failed tests
