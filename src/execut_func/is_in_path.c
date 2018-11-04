@@ -13,14 +13,14 @@
 
 char *is_in_path(char **env, char *function)
 {
-	char **arpath = NULL;
+	char **arpath = my_path_to_ar(my_getpath(env));
 	char *path = NULL;
+	int i = 0;
 
-	arpath = my_path_to_ar(my_getpath(env));
 	if (!arpath)
 		return (NULL);
 	path = find_the_right_path(arpath, function);
-	for (int i = 0; arpath[i + 1]; i++)
+	for (; arpath[i + 1]; i++) 
 		free(arpath[i]);
 	free(arpath);
 	return (path);
@@ -28,18 +28,12 @@ char *is_in_path(char **env, char *function)
 
 char *my_getpath(char **env)
 {
-	char *path = NULL;
 	int i = 0;
-	int lenpath = 0;
 
 	for (; env[i] && strncmp("PATH=", env[i], 5); i++);
 	if (!env[i])
 		return (NULL);
-	lenpath = strlen(env[i] + 5);
-	path = malloc(sizeof(char) * (lenpath + 1));
-	strcpy(path, env[i] + 5);
-	path[lenpath] = '\0';
-	return (path);
+	return (strdup(env[i] + 5));
 }
 
 char *find_the_right_path(char **arpath, char *instruction)
@@ -70,9 +64,7 @@ char **full_with_slash(char **arpath)
 	for (int i = 0; arpath[i]; i++) {
 		temp = arpath[i];
 		arpath[i] = add_slash(temp);
-		if (temp)
-			free(temp);
-		temp = NULL;
+		free(temp);
 	}
 	return (arpath);
 }

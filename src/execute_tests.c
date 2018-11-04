@@ -13,7 +13,7 @@
 #include "prototypes.h"
 
 int execute_test(clname_t *cd_tree, char *funct,
-char *f_path, int silence)
+char *f_path, int *options)
 {
 	clname_t *node = cd_tree;
 
@@ -21,15 +21,15 @@ char *f_path, int silence)
 		if (!node->str)
 			continue;
 		if (node->chld_cl)
-			execute_test(node->chld_cl, funct, f_path, silence);
+			execute_test(node->chld_cl, funct, f_path, options);
 		else
-			exec_command(node, funct, f_path, silence);
+			exec_command(node, funct, f_path, options);
 	}
 	return (0);
 }
 
 void exec_command(clname_t *node, char *funct,
-char *function_path, int silence)
+char *function_path, int *options)
 {
 	int status = 0;
 	int fd[2];
@@ -47,7 +47,7 @@ char *function_path, int silence)
 			exit(84);
 		break;
 	default:
-		compare_test_res(node, buffer, silence,
+		compare_test_res(node, buffer, options,
 		parent_process(fd, pid, status, buffer));
 		close(fd[PIP_READ]);
 	}
@@ -76,24 +76,15 @@ int parent_process(int *fd, pid_t pid, int status, char *buffer)
 }
 
 void compare_test_res(clname_t *node, char *buffer,
-int silence, int nbytes)
+int *options, int nbytes)
 {
 	if (nbytes == -1) {
 		printf("IO Error\n");
 		return;
 	}
 	buffer[nbytes - 1] = '\0';
-	if (!strcmp(node->res, buffer)) {
+	if (!strcmp(node->res, buffer))
 		node->success = 1;
-		if (!silence) {
-			display_info(node);
-			printf("%sOK!%s\n", "\x1b[32m", "\x1b[0m");
-		}
-	} else {
-		display_info(node);
-		printf("%sKO^%s\nExpected:\n%s%s\n", "\x1b[31m",
-		"\x1b[34m", "\x1b[0m", node->res);
-		printf("%sBut got:\n%s%s\n", "\x1b[34m", "\x1b[0m", buffer);
-	}
+	display_info(node, options, buffer);
 	fflush(stdout);
 }

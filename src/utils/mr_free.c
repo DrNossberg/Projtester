@@ -17,8 +17,7 @@ void ar_free(char **array)
 		return;
 	for (; array[i + 1]; i++)
 		free(array[i]);
-	if (array[i])
-		free(array[i]);
+	free(array[i]);
 	free(array);
 }
 

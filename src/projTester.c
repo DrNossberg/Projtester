@@ -32,11 +32,12 @@ void do_test(clname_t *cd_tree, char *function, char **env, int *options)
 {
 	char *funct_path = is_in_cd(cd_tree, ".", function);
 
-	if (!funct_path)
-		funct_path = is_in_path(env, function);
+	funct_path = is_in_path(env, function);
 	if (!funct_path)
 		exit(84);
-	if (execute_test(cd_tree, function, funct_path, options[SILENCE]))
+	if (!add_valgrind(&funct_path, options))
+		return;
+	if (execute_test(cd_tree, function, funct_path, options))
 		return;
 	summarize(cd_tree, options[LIST]);
 	free(funct_path);
@@ -46,7 +47,7 @@ void do_test(clname_t *cd_tree, char *function, char **env, int *options)
 int main(int argc, char *argv[], char **env)
 {
 	clname_t *test_dir;
-	int options[] = {0, 0};
+	int options[] = {'s', 'l', 'v', 'd', 'f', '\0'};
 
 	if (parse_entry(argc, argv, options))
 		return (84);

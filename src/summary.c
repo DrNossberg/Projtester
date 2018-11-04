@@ -53,7 +53,7 @@ void summarize(clname_t *cd_tree, int list)
 	nbr_ofsuccess, nbr_ofnode, nbr_offails);
 	if (nbr_ofsuccess == nbr_ofnode)
 		printf("\nAll test passed, congratulation!\n");
-	if (!list && nbr_offails) {
+	if (list && nbr_offails) {
 		printf("\n----------*\nFailed Test = ");
 		list_all_failedtest(cd_tree);
 		printf("\n");
