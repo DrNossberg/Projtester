@@ -49,11 +49,15 @@ int main(int argc, char *argv[], char **env)
 	clname_t *test_dir;
 	int options[] = {'s', 'l', 'v', 'd', 'f', '\0'};
 
-	if (parse_entry(argc, argv, options))
+	if (parse_entry(argc, argv, options)) {
+		fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");
 		return (84);
+	}
 	if (argv[1][0] == '.' && argv[1][1] == '/')
 		argv[1] += 2;
 	test_dir = build_tree(argv[1]);
+	if (!test_dir)
+		return (84);
 	if (argc == 2) {
 		display_folder_name(argv[1]);
 		display_tree(test_dir, 5);

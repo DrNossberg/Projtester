@@ -27,6 +27,7 @@ void display_help(void)
 
 void display_options(void)
 {
+	printf("\t\t-h\t%s\n", "help; display this help");
 	printf("\t\t-s\t%s\n", "silence; don't print passed tests");
 	printf("\t\t-l\t%s%s\n", "debugging; display the name",
 	" of all failed tests");
