@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include "stradd.h"
 #include "struct.h"
 #include "prototypes.h"
 
@@ -20,8 +21,8 @@ char *is_in_path(char **env, char *function)
 	if (!arpath)
 		return (NULL);
 	path = find_the_right_path(arpath, function);
-	for (; arpath[i + 1]; i++) 
-		free(arpath[i]);
+	while (arpath[i + 1]) 
+		free(arpath[i++]);
 	free(arpath);
 	return (path);
 }
@@ -41,7 +42,7 @@ char *find_the_right_path(char **arpath, char *instruction)
 	char *path = NULL;
 
 	for (int i = 0; arpath[i]; i++) {
-		path = stradd(arpath[i], instruction, 0);
+		path = stradd(arpath[i], instruction);
 		if (!access(path, X_OK))
 			return (path);
 		free(path);

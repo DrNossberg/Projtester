@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "stradd.h"
 #include "struct.h"
 #include "prototypes.h"
 
@@ -38,7 +39,7 @@ char **retour)
 	char *chld_path = NULL;
 
 	path = add_slash(path);
-	chld_path = stradd(path, node->str, 0);
+	chld_path = stradd(path, node->str);
 	*retour = is_in_cd(node->chld_cl, chld_path, function);
 	free(chld_path);
 	return (*retour);
@@ -46,7 +47,7 @@ char **retour)
 
 char *is_innode(char *path, char *filename, char *function)
 {
-	char *func_path = stradd(path, filename, 0);
+	char *func_path = stradd(path, filename);
 
 	if (!strcmp(filename, function))
 		return (func_path);

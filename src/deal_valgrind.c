@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include "stradd.h"
 #include "prototypes.h"
 
 int add_valgrind(char **function, int *options)
@@ -15,7 +16,7 @@ int add_valgrind(char **function, int *options)
 	if (!options[VALG])
 		return (1);
 	temp = strdup(*function);
-	*function = stradd("valgrind ", temp, 0);
+	*function = stradd("valgrind ", temp);
 	free(temp);
 	return(1);
 }

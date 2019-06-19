@@ -11,8 +11,10 @@
 
 int parse_entry(int argc, char *argv[], int *options)
 {
-	if (argc < 2)
+	if (argc < 2) {
+		fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");
 		return (84);
+	}
 	if (!strcmp("-h", argv[1])) {
 		display_help();
 		exit(0);
@@ -27,7 +29,7 @@ void fill_option_tab(char *argv[], int *options)
 	int n = 0;
 
 	for (int i = 3; argv[i]; i++) {
-		if (argv[i][0] != '-' || !argv[3][1])
+		if (argv[i][0] != '-' || !argv[i][1])
 			exit(84);
 		for (n = 0; options[n]; n++)
 			catch_option(&options[n], argv[i]);

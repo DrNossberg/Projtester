@@ -5,25 +5,24 @@
 ** parse the file
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
 
-#include <stdio.h>
 #include <fcntl.h>
-#include <struct.h>
-#include <prototypes.h>
+#include "stradd.h"
+#include "struct.h"
+#include "prototypes.h"
 
-clname_t *fill_node_info(clname_t *node, char *path)
+clname_t *read_test(clname_t *node, char *path)
 {
 	FILE *fd;
 	size_t n = 0;
 	char *buffer = NULL;
 
-	if (check_extension(node->str))
-		return (node);
 	if (open_file(path, node->str, &fd))
 		return (NULL);
 	getdelim(&buffer, &n, '\n', fd);
@@ -39,28 +38,19 @@ clname_t *fill_node_info(clname_t *node, char *path)
 	return (node);
 }
 
-int check_extension(char *name)
-{
-	int len = strlen(name);
-
-	if (len < 4)
-		return (84);
-	if (!strcmp(name + len - 4, ".tdf"))
-		return (0);
-	return (1);
-}
-
-int open_file(char *way, char *file_name, FILE **fd)
+int open_file(char *path, char *file_name, FILE **fd)
 {
 	char *file_path = NULL;
 
-	way = add_slash(way);
-	file_path = stradd(way, file_name, 1);
+	file_path = strfadd(add_slash(path), file_name, FREE_STRA);
 	if (!file_path)
 		return (84);
 	*fd = fopen(file_path, "r");
-	if (*fd == NULL)
-		return (84);
+	if (*fd == NULL) {
+		perror("fopen");
+		free(file_path);
+		exit (84);
+	}
 	free(file_path);
 	return (0);
 }

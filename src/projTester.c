@@ -11,23 +11,6 @@
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *build_tree(char *folder_name)
-{
-	int baselen = 0;
-	clname_t *cl_name = NULL;
-
-	for (int i = 0; folder_name[i]; i++)
-		if (folder_name[i] == '/')
-			baselen++;
-	cl_name = tree(folder_name, baselen);
-	if (!cl_name)
-		return (NULL);
-	cl_name = sort_tree(cl_name);
-	if (!cl_name)
-		return (NULL);
-	return (cl_name);
-}
-
 void do_test(clname_t *cd_tree, char *function, char **env, int *options)
 {
 	char *funct_path = is_in_cd(cd_tree, ".", function);

@@ -6,13 +6,15 @@
 */
 
 #include <string.h>
-#include "prototypes.h"
+#include "stradd.h"
 
 char *add_slash(char *path)
 {
-	int len = strlen(path);
+    char *tmp = NULL;
 
-	if (path[len - 1] != '/')
-		path = stradd(path, "/", 0);
-	return (path);
+    if (path[strlen(path) - 1] != '/')
+        tmp = stradd(path, "/");
+    else
+        tmp = strdup(path); /* hum *kof* *kof* */
+    return (tmp);
 }
