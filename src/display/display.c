@@ -59,11 +59,11 @@ void print_with_space(int n, char *str)
 
 void display_folder_name(char *path)
 {
-	int i = 0;
+	int i = strlen(path);
+	int len = i - 1;
 
-	for (; path[i]; i++);
-	for (; i > 0 && path[i] != '/'; i--);
+	for (; i && (path[i] != '/' || i == len); i--);
 	if (path[i] == '/')
 		i++;
-	printf("%s\n", path + i);
+	printf("%s%s", path + i, path[len] == '/' ? "\n" : "/\n");
 }

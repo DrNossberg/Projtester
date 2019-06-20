@@ -36,8 +36,6 @@ int main(int argc, char *argv[], char **env)
 		fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");
 		return (84);
 	}
-	if (argv[1][0] == '.' && argv[1][1] == '/')
-		argv[1] += 2;
 	test_dir = build_tree(argv[1]);
 	if (!test_dir)
 		return (84);

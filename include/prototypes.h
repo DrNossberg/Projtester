@@ -38,11 +38,11 @@ int open_file(char *way, char *file_name, FILE **fd);
     char *add_slash(char *path);
 
 /*get/*/
-char **get_test_attribut(char *file_name);
+char **get_test_attribut(FILE *fd);
 char *get_next_arg(char **str);
 
 /*get_test_result*/
-char *get_test_res(char *buffer);
+char *get_test_res(FILE *fd);
 
 void display_tree(clname_t *clname, int space);
 void print_with_space(int n, char *str);

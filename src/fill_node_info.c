@@ -5,14 +5,7 @@
 ** parse the file
 */
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <string.h>
-
-#include <fcntl.h>
 #include "stradd.h"
 #include "struct.h"
 #include "prototypes.h"
@@ -20,21 +13,15 @@
 clname_t *read_test(clname_t *node, char *path)
 {
 	FILE *fd;
-	size_t n = 0;
-	char *buffer = NULL;
 
 	if (open_file(path, node->str, &fd))
 		return (NULL);
-	getdelim(&buffer, &n, '\n', fd);
-	node->args = get_test_attribut(buffer);
-	buffer = NULL;
-	getdelim(&buffer, &n, '\0', fd);
-	node->res = get_test_res(buffer);
 	node->path = get_path(path);
-	if (!node->args && !node->res)
-		return (NULL);
-	free(buffer);
+	node->args = get_test_attribut(fd);
+	node->res  = get_test_res(fd);
 	fclose(fd);
+	if (!node->path || !node->args || !node->res)
+		return (NULL);
 	return (node);
 }
 

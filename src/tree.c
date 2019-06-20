@@ -44,7 +44,9 @@ clname_t *tree(char *path, int basepathlen)
 			node = read_test(node, path);
 		} else
 			node = do_recursive(node, namelist[n], path, basepathlen);
+		free(namelist[n]);
 	}
+	free(namelist);
 	return (node);
 }
 

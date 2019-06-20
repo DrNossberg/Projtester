@@ -11,19 +11,16 @@
 
 void ar_free(char **array)
 {
-	int i = 0;
-
 	if (!array)
 		return;
-	for (; array[i + 1]; i++)
+	for (int i = 1; array[i]; i++)
 		free(array[i]);
-	free(array[i]);
 	free(array);
 }
 
 void mr_free(clname_t *clname)
 {
-	clname_t *prev = clname;
+	clname_t *prev;
 
 	while (clname) {
 		if (clname->chld_cl)

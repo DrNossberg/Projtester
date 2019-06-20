@@ -6,15 +6,19 @@
 */
 
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-char *get_test_res(char *buffer)
+char *get_test_res(FILE *fd)
 {
-	char *temp = buffer;
+    size_t n = 0;
+    char *buffer = NULL;
+    char *temp = NULL;
 
-	while (*temp && *temp != ':')
-		temp++;
-	if (*temp)
-		temp++;
-	return (strdup(temp));
+    getdelim(&buffer, &n, '\0', fd);
+    if (strlen(buffer) <= 4)
+        return (NULL);
+    temp = strdup(buffer + 4);
+    free(buffer);
+    return (temp);
 }
