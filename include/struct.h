@@ -24,12 +24,17 @@
 	#define SEPARATOR 	'-'
 
 	typedef struct clname_s {
-		char *str;
-		char **path;
+		char *test_name;
 		char **args;
 		char *res;
-		int success;
+
+		char **path;
 		int pathlen;
+
+		/*lenght (in folder) of the test directory passed as arg*/
+		int arg_pathlen;
+
+		int success;
 		struct clname_s *chld_cl;
 		struct clname_s *next;
 	} clname_t;

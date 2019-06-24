@@ -18,7 +18,7 @@ void display_tree(char *test_folder, clname_t *clname, int char_nbr)
 	if (test_folder)
 		display_folder_name(test_folder);
 	for (; node && node->next; node = node->next) {
-		display_path(char_nbr, node->str);
+		display_path(char_nbr, node->test_name);
 		if (node->chld_cl) {
 			puts("/");
 			display_tree(NULL, node->chld_cl, char_nbr + 5);
@@ -29,14 +29,14 @@ void display_tree(char *test_folder, clname_t *clname, int char_nbr)
 
 void display_info(clname_t *node, int *options, char *buffer)
 {
-	int len = strlen(node->str);
+	int len = strlen(node->test_name);
 
 	if (node->success && options[SILENCE])
 		return;
-	for (int i = 0; node->path[i]; i++)
+	for (int i = node->arg_pathlen; node->path[i]; i++)
 		printf("[%s] ", node->path[i]);
 	for (int i = 0; i < len - 4; i++)
-		printf("%c", node->str[i]);
+		printf("%c", node->test_name[i]);
 	printf(": ");
 	if (node->success && !options[SILENCE])
 		printf("%sOK!%s\n", "\x1b[32m", "\x1b[0m");

@@ -15,7 +15,7 @@ char **get_path(char *path, int *arlen)
 	int j;
 	char **array = NULL;
 
-	*arlen = count_path_node(path);
+	*arlen = count_path_folder(path);
 	array = malloc(sizeof(char *) * (*arlen + 1));
 	array[*arlen] = NULL;
 	for (int k = 0; k < *arlen; k++) {
@@ -28,7 +28,7 @@ char **get_path(char *path, int *arlen)
 	return (array);
 }
 
-int count_path_node(char *path)
+int count_path_folder(char *path)
 {
 	int len = 0;
 

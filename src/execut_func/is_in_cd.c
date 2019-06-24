@@ -20,9 +20,9 @@ char *is_in_cd(clname_t *cd_tree, char *path, char *function)
 	char *tmp = add_slash(path);
 
 	for (; node; node = node->next) {
-		if (!node->str)
+		if (!node->test_name)
 			continue;
-		retour = is_innode(tmp, node->str, function);
+		retour = is_innode(tmp, node->test_name, function);
 		if (retour)
 			break;
 		if (node->chld_cl && launch_child(node, tmp,
@@ -37,7 +37,7 @@ char *launch_child(clname_t *node, char *path, char *function,
 char **retour)
 {
 	char *tmp = add_slash(path);
-	char *chld_path = stradd(tmp, node->str);
+	char *chld_path = stradd(tmp, node->test_name);
 
 	*retour = is_in_cd(node->chld_cl, chld_path, function);
 	free(chld_path);

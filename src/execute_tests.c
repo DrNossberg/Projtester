@@ -14,51 +14,53 @@
 
 #include "prototypes.h"
 
-int execute_test(clname_t *cd_tree, char *f_path, int *options)
+int execute_test_tree(clname_t *cd_tree, char *f_path, int *options)
 {
+	char buffer[BUF_SIZE];
 	clname_t *node = cd_tree;
 
 	for (; node && node->next; node = node->next) {
-		if (!node->str)
+		if (!node->test_name)
 			continue;
 		if (node->chld_cl)
-			execute_test(node->chld_cl, f_path, options);
-		else
-			exec_command(node, f_path, options);
+			execute_test_tree(node->chld_cl, f_path, options);
+		else {
+			execute_test(node->args, f_path, buffer);
+			if (!strcmp(node->res, buffer))
+				node->success = 1;
+			display_info(node, options, buffer);
+		}
 	}
 	return (0);
 }
 
-void exec_command(clname_t *node, char *function_path, int *options)
+void execute_test(char **args, char *function_path, char *buffer)
 {
 	int status = 0;
 	int fd[2];
 	pid_t pid = create_pid(fd);
-	char buffer[BUF_SIZE];
-	printf("path : %s\n", function_path);
 
 	switch (pid) {
 		case -1:
-			puts("Fork fail");
-			perror("fork");
+			fprintf(stderr, "Fork fail: %s", strerror(errno));
 			exit(84);
 		case 0:
-			child_process(fd);
-			status = execv(function_path, node->args);
-			if (status == -1) 
-				exit(84);
+			run_tested_prog(fd, function_path, args, &status);
 			break;
 		default:
 			get_test_result(fd, pid, status, buffer);
-			compare_test_res(node, buffer, options);
 			close(fd[PIP_READ]);
 	}
 }
 
-void child_process(int *fd)
+void run_tested_prog(int *fd, char *function_path,
+	char **args, int *status)
 {
 	close(fd[PIP_READ]);
 	dup2(fd[PIP_WRITE], STDOUT_FILENO);
+	*status = execv(function_path, args);
+	if (*status == -1) 
+		exit(84);
 }
 
 int get_test_result(int *fd, pid_t pid, int status, char *buffer)
@@ -79,12 +81,4 @@ int get_test_result(int *fd, pid_t pid, int status, char *buffer)
 	buffer[nbytes - 1] = '\0';
 	close(fd[PIP_READ]);
 	return (nbytes);
-}
-
-void compare_test_res(clname_t *node, char *buffer, int *options)
-{
-	if (!strcmp(node->res, buffer))
-		node->success = 1;
-	display_info(node, options, buffer);
-	fflush(stdout);
 }

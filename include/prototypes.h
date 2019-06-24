@@ -20,10 +20,10 @@ void catch_option(int *opt, char *argv);
 
 /*tree*/
 clname_t *build_tree(char **argv);
-clname_t *tree(char *path, char *function);
-clname_t *do_recursive(clname_t *node, struct dirent *file,  char *function,
-char *path);
+clname_t *tree(char *path, char *function, int test_dir_len);
+int my_scandir(char *path, struct dirent ***namelist);
 int my_filter_function(const struct dirent *item);
+
 
 /*fill_node_info*/
 clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, char *path);
@@ -49,6 +49,7 @@ int open_file(char *way, char *file_name, FILE **fd);
     char *get_test_res(FILE *fd);
     /*get_path*/
     char **get_path(char *path, int *arlen);
+    int count_path_folder(char *path);
 
 /*display/*/
     /*display*/
@@ -56,13 +57,11 @@ int open_file(char *way, char *file_name, FILE **fd);
     void display_path(int n, char *str);
 
 /*execute_test*/
-int execute_test(clname_t *cd_tree, char *f_path, int *options);
-void child_process(int *fd);
-void exec_command(clname_t *node, char *function_path, int *options);
+int execute_test_tree(clname_t *cd_tree, char *f_path, int *options);
+void execute_test(char **args, char *function_path, char *buffer);
+void run_tested_prog(int *, char *, char **, int *);
 int get_test_result(int *fd, pid_t pid, int status, char *buffer);
 
-void compare_test_res(clname_t *node, char *buffer,
-int *options);
 
 clname_t *link_node_tocl(clname_t *p_head, clname_t *node);
 char *is_in_cd(clname_t *cd_tree, char *path, char *function);
@@ -74,7 +73,6 @@ char *my_getpath(char **env);
 char *find_the_right_path(char **arpath, char *instruction);
 char **my_path_to_ar(char *path);
 char *is_in_path(char **env, char *function);
-int count_path_node(char *path);
 int count_argnbr(char *str);
 void display_info(clname_t *node, int *options, char *buffer);
 void display_help(void);

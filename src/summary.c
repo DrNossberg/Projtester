@@ -13,7 +13,7 @@ int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess)
 	clname_t *node = cd_tree;
 
 	for (; node; node = node->next) {
-		if (!node->str)
+		if (!node->test_name)
 			continue;
 		if (node->chld_cl)
 			nbr = count_nbrofnode(node->chld_cl, nbr,
@@ -31,12 +31,12 @@ void list_all_failedtest(clname_t *cd_tree)
 	clname_t *node = cd_tree;
 
 	for (; node; node = node->next) {
-		if (!node->str)
+		if (!node->test_name)
 			continue;
 		if (node->chld_cl)
 			list_all_failedtest(node->chld_cl);
 		if (!node->chld_cl && !node->success)
-			printf("%s;", node->str);
+			printf("%s;", node->test_name);
 	}
 	return;
 }

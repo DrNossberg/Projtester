@@ -19,7 +19,7 @@ clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, ch
 
 	if (!function)
 		return (node);
-	if (!node || open_file(path, node->str, &fd))
+	if (!node || open_file(path, node->test_name, &fd))
 		return (NULL);
 	node->path = get_path(path, &node->pathlen);
 	node->args = get_test_attribut(fd);
