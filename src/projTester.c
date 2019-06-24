@@ -15,6 +15,7 @@ void do_test(clname_t *cd_tree, char *function, char **env, int *options)
 {
 	char *funct_path = is_in_cd(cd_tree, ".", function);
 
+	// free(funct_path);
 	funct_path = is_in_path(env, function);
 	if (!funct_path)
 		exit(84);
@@ -39,10 +40,9 @@ int main(int argc, char *argv[], char **env)
 	test_dir = build_tree(argv);
 	if (!test_dir)
 		return (84);
-	if (argc == 2) {
-		display_folder_name(argv[1]);
-		display_tree(test_dir, 5);
-	} else
+	if (argc == 2)
+		display_tree(argv[1], test_dir, 5);
+	else
 		do_test(test_dir, argv[2], env, options);
 	mr_free(test_dir);
 	return (0);

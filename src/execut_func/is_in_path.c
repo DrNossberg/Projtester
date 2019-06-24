@@ -17,13 +17,10 @@ char *is_in_path(char **env, char *function)
 {
 	char **arpath = my_path_to_ar(my_getpath(env));
 	char *path = NULL;
-	int i = 0;
 
 	if (!arpath)
 		return (NULL);
 	path = find_the_right_path(arpath, function);
-	while (arpath[i + 1]) 
-		free(arpath[i++]);
 	free(arpath);
 	return (path);
 }
@@ -43,26 +40,22 @@ char *find_the_right_path(char **arpath, char *instruction)
 	char *path = NULL;
 
 	for (int i = 0; arpath[i]; i++) {
-		path = stradd(arpath[i], instruction);
-		if (!access(path, X_OK))
+		path = strfadd(arpath[i], instruction, FREE_STRA);
+		if (!access(path, X_OK)) {
+			for (; arpath[++i]; free(arpath[i]));
 			return (path);
+		}
 		free(path);
 	}
 	return (NULL);
 }
 
-char **my_path_to_ar(char *path)
+char **my_path_to_ar(char *my_get_path)
 {
-	char **arpath = str_to_word_array(path, ':');
-
-	free(path);
-	return (full_with_slash(arpath));
-}
-
-char **full_with_slash(char **arpath)
-{
+	char **arpath = str_to_word_array(my_get_path, ':');
 	char *temp = NULL;
 
+	free(my_get_path);
 	for (int i = 0; arpath[i]; i++) {
 		temp = arpath[i];
 		arpath[i] = add_slash(temp);

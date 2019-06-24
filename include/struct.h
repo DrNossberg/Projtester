@@ -28,9 +28,10 @@
 		char **path;
 		char **args;
 		char *res;
+		int success;
+		int pathlen;
 		struct clname_s *chld_cl;
 		struct clname_s *next;
-		int success;
 	} clname_t;
 
 #endif /* STRUCT_H_ */

@@ -9,15 +9,16 @@
 #include <stdlib.h>
 #include "prototypes.h"
 
-char **get_path(char *path)
+char **get_path(char *path, int *arlen)
 {
 	int i = 0;
 	int j;
-	int arlen = count_path_node(path);
-	char **array = malloc(sizeof(char *) * (arlen + 1));
+	char **array = NULL;
 
-	array[arlen] = NULL;
-	for (int k = 0; k < arlen; k++) {
+	*arlen = count_path_node(path);
+	array = malloc(sizeof(char *) * (*arlen + 1));
+	array[*arlen] = NULL;
+	for (int k = 0; k < *arlen; k++) {
 		while (path[i] && path[i] != '/')
 			i++;
 		i++;

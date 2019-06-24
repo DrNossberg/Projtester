@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+
 #include "prototypes.h"
 
 int execute_test(clname_t *cd_tree, char *f_path, int *options)
@@ -33,6 +35,7 @@ void exec_command(clname_t *node, char *function_path, int *options)
 	int fd[2];
 	pid_t pid = create_pid(fd);
 	char buffer[BUF_SIZE];
+	printf("path : %s\n", function_path);
 
 	switch (pid) {
 		case -1:
@@ -46,8 +49,8 @@ void exec_command(clname_t *node, char *function_path, int *options)
 				exit(84);
 			break;
 		default:
-			compare_test_res(node, buffer, options,
-			parent_process(fd, pid, status, buffer));
+			get_test_result(fd, pid, status, buffer);
+			compare_test_res(node, buffer, options);
 			close(fd[PIP_READ]);
 	}
 }
@@ -58,7 +61,7 @@ void child_process(int *fd)
 	dup2(fd[PIP_WRITE], STDOUT_FILENO);
 }
 
-int parent_process(int *fd, pid_t pid, int status, char *buffer)
+int get_test_result(int *fd, pid_t pid, int status, char *buffer)
 {
 	int nbytes = 0;
 
@@ -69,18 +72,17 @@ int parent_process(int *fd, pid_t pid, int status, char *buffer)
 	} while (!WIFEXITED(status));
 	memset(buffer, '\0', BUF_SIZE - 1);
 	nbytes = read(fd[PIP_READ], buffer, BUF_SIZE - 1);
+	if (nbytes == -1) {
+		fprintf(stderr, "IO Error while reading test result, %s\n", strerror(errno));
+		return (-1);
+	}
+	buffer[nbytes - 1] = '\0';
 	close(fd[PIP_READ]);
 	return (nbytes);
 }
 
-void compare_test_res(clname_t *node, char *buffer,
-int *options, int nbytes)
+void compare_test_res(clname_t *node, char *buffer, int *options)
 {
-	if (nbytes == -1) {
-		printf("IO Error\n");
-		return;
-	}
-	buffer[nbytes - 1] = '\0';
 	if (!strcmp(node->res, buffer))
 		node->success = 1;
 	display_info(node, options, buffer);

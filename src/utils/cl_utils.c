@@ -25,6 +25,7 @@ clname_t *init_cl(void)
 	node->res 	= NULL;
 	node->chld_cl = NULL;
 	node->success = 0;
+	node->pathlen = 0;
 	return (node);
 }
 

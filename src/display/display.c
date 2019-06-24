@@ -11,15 +11,17 @@
 #include <struct.h>
 #include "prototypes.h"
 
-void display_tree(clname_t *clname, int char_nbr)
+void display_tree(char *test_folder, clname_t *clname, int char_nbr)
 {
 	clname_t *node = clname;
 
+	if (test_folder)
+		display_folder_name(test_folder);
 	for (; node && node->next; node = node->next) {
 		display_path(char_nbr, node->str);
 		if (node->chld_cl) {
 			puts("/");
-			display_tree(node->chld_cl, char_nbr + 5);
+			display_tree(NULL, node->chld_cl, char_nbr + 5);
 		} else if (node->next)
 			putchar('\n');
 	}

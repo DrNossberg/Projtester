@@ -9,12 +9,14 @@
 #include <stdlib.h>
 #include "struct.h"
 
-void ar_free(char **array)
+void ar_free(char **array, int arlen)
 {
 	if (!array)
 		return;
-	for (int i = 1; array[i]; i++)
-		free(array[i]);
+
+	for (int i = 0; i < arlen || array[i]; i++) 
+		if (array[i])
+			free(array[i]);
 	free(array);
 }
 
@@ -28,8 +30,8 @@ void mr_free(clname_t *clname)
 		prev = clname;
 		clname = clname->next;
 		free(prev->str);
-		ar_free(prev->path);
-		ar_free(prev->args);
+		ar_free(prev->path, prev->pathlen);
+		ar_free(prev->args, 0);
 		free(prev->res);
 		free(prev);
 	}

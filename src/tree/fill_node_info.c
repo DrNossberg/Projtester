@@ -17,16 +17,17 @@ clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, ch
 	clname_t *node = add_clname_node(p_head, test_name);
 	FILE *fd;
 
+	if (!function)
+		return (node);
 	if (!node || open_file(path, node->str, &fd))
 		return (NULL);
-	node->path = get_path(path);
+	node->path = get_path(path, &node->pathlen);
 	node->args = get_test_attribut(fd);
 	node->res  = get_test_res(fd);
 	fclose(fd);
 	if (!node->path || !node->args)
 		return (NULL);
-	if (function)
-    	node->args[0] = strdup(function);
+    node->args[0] = strdup(function);
 	return (node);
 }
 
