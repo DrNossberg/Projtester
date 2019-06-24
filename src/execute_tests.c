@@ -12,8 +12,7 @@
 #include <string.h>
 #include "prototypes.h"
 
-int execute_test(clname_t *cd_tree, char *funct,
-char *f_path, int *options)
+int execute_test(clname_t *cd_tree, char *f_path, int *options)
 {
 	clname_t *node = cd_tree;
 
@@ -21,15 +20,14 @@ char *f_path, int *options)
 		if (!node->str)
 			continue;
 		if (node->chld_cl)
-			execute_test(node->chld_cl, funct, f_path, options);
+			execute_test(node->chld_cl, f_path, options);
 		else
-			exec_command(node, funct, f_path, options);
+			exec_command(node, f_path, options);
 	}
 	return (0);
 }
 
-void exec_command(clname_t *node, char *funct,
-char *function_path, int *options)
+void exec_command(clname_t *node, char *function_path, int *options)
 {
 	int status = 0;
 	int fd[2];
@@ -37,19 +35,20 @@ char *function_path, int *options)
 	char buffer[BUF_SIZE];
 
 	switch (pid) {
-	case -1:
-		puts("Fork fail");
-		exit(84);
-	case 0:
-		child_process(fd);
-		status = execv(function_path, node->args);
-		if (status == -1) 
+		case -1:
+			puts("Fork fail");
+			perror("fork");
 			exit(84);
-		break;
-	default:
-		compare_test_res(node, buffer, options,
-		parent_process(fd, pid, status, buffer));
-		close(fd[PIP_READ]);
+		case 0:
+			child_process(fd);
+			status = execv(function_path, node->args);
+			if (status == -1) 
+				exit(84);
+			break;
+		default:
+			compare_test_res(node, buffer, options,
+			parent_process(fd, pid, status, buffer));
+			close(fd[PIP_READ]);
 	}
 }
 

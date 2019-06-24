@@ -38,11 +38,11 @@ int open_file(char *way, char *file_name, FILE **fd);
     char *add_slash(char *path);
 
 /*get/*/
-char **get_test_attribut(FILE *fd);
-char *get_next_arg(char **str);
-
-/*get_test_result*/
-char *get_test_res(FILE *fd);
+    /*get_test_attribut*/
+    char **get_test_attribut(FILE *fd);
+    char *get_next_arg(char **str);
+    /*get_test_result*/
+    char *get_test_res(FILE *fd);
 
 /*display/*/
     /*display*/
@@ -50,9 +50,9 @@ char *get_test_res(FILE *fd);
     void display_path(int n, char *str);
 
 /*execute_test*/
-int execute_test(clname_t *cd_tree, char *funct,
-char *f_path, int *options);
+int execute_test(clname_t *cd_tree, char *f_path, int *options);
 void child_process(int *fd);
+void exec_command(clname_t *node, char *function_path, int *options);
 
 void mr_free(clname_t *clname);
 clname_t *link_node_tocl(clname_t *p_head, clname_t *node);
@@ -67,8 +67,6 @@ char **my_path_to_ar(char *path);
 char **full_with_slash(char **arpath);
 void ar_free(char **array);
 char *is_in_path(char **env, char *function);
-void exec_command(clname_t *node, char *funct,
-char *function_path, int *options);
 char **get_path(char *path);
 int count_path_node(char *path);
 int count_argnbr(char *str);

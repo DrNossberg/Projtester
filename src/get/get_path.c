@@ -12,7 +12,7 @@
 char **get_path(char *path)
 {
 	int i = 0;
-	int j = 0;
+	int j;
 	int arlen = count_path_node(path);
 	char **array = malloc(sizeof(char *) * (arlen + 1));
 
@@ -22,7 +22,7 @@ char **get_path(char *path)
 			i++;
 		i++;
 		for (j = 0; path[i + j] && path[i + j] != '/'; j++);
-		array[k] = strndup(path + i, j);
+		array[k] = (j > 0) ? strndup(path + i, j) : NULL;
 	}
 	return (array);
 }

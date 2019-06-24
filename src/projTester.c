@@ -20,7 +20,7 @@ void do_test(clname_t *cd_tree, char *function, char **env, int *options)
 		exit(84);
 	if (!add_valgrind(&funct_path, options))
 		return;
-	if (execute_test(cd_tree, function, funct_path, options))
+	if (execute_test(cd_tree, funct_path, options))
 		return;
 	summarize(cd_tree, options[LIST]);
 	free(funct_path);

@@ -2,35 +2,32 @@
 ## EPITECH PROJECT, 2017
 ## Makefile
 ## File description:
-## make the palindrome exe
+## compile the projTester project
 ##
 
-SRCDIR	=	src
+SRCDIR	:=	src
+SRC		:=	$(wildcard $(SRCDIR)/*.c) \
+			$(wildcard $(SRCDIR)/get/*.c) \
+			$(wildcard $(SRCDIR)/tree/*.c) \
+			$(wildcard $(SRCDIR)/utils/*.c) \
+			$(wildcard $(SRCDIR)/display/*.c) \
+			$(wildcard $(SRCDIR)/execut_func/*.c)
+OBJ		:=	$(SRC:.c=.o)
+CFLAGS	:=	-I ./include -g -Wall -W
 
-SRC	=	$(wildcard $(SRCDIR)/*.c) \
-		$(wildcard $(SRCDIR)/get/*.c) \
-		$(wildcard $(SRCDIR)/utils/*.c) \
-		$(wildcard $(SRCDIR)/display/*.c) \
-		$(wildcard $(SRCDIR)/execut_func/*.c)
+NAME	:=	projTester
 
+all		: $(NAME)
 
-OBJ	=	$(SRC:.c=.o)
-
-CFLAGS =	-I ./include -g -Wall -W
-
-NAME	=	projTester
-
-all: $(NAME)
-
-$(NAME):	$(OBJ)
+$(NAME)	:	$(OBJ)
 	gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
-clean:
+clean	:
 	rm -f $(OBJ)
 
-fclean: clean
+fclean	: clean
 	rm -f $(NAME)
 
-re:	fclean $(NAME) clean
+re		:	fclean $(NAME) clean
 
-.PHONY: all clean fclean re
+.PHONY	: all clean fclean re

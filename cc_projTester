@@ -1,10 +1,9 @@
 #!/bin/bash
 
-rm -f projTester
+# valgrind --leak-check=full --track-origins=yes ./projTester TestDirectory/ echo -v
+make fclean -s
 make -s
-valgrind --leak-check=full --track-origins=yes ./projTester TestDirectory/ echo -v
-make clean -s
 #valgrind --track-origins=yes ./projTester rootDirectory1
 #valgrind ./projTester ./rootDirectory1 echo
-#./projTester test/rootDirectory1 echo
+./projTester TestDirectory/rootDirectory1
 #echo "echo :" $?
