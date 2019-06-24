@@ -17,7 +17,7 @@ char *f_path, int *options)
 {
 	clname_t *node = cd_tree;
 
-	for (; node; node = node->next) {
+	for (; node && node->next; node = node->next) {
 		if (!node->str)
 			continue;
 		if (node->chld_cl)
@@ -41,9 +41,9 @@ char *function_path, int *options)
 		puts("Fork fail");
 		exit(84);
 	case 0:
-		child_process(fd, &node, funct);
+		child_process(fd);
 		status = execv(function_path, node->args);
-		if (status == -1)
+		if (status == -1) 
 			exit(84);
 		break;
 	default:
@@ -53,11 +53,10 @@ char *function_path, int *options)
 	}
 }
 
-void child_process(int *fd, clname_t **node, char *funct)
+void child_process(int *fd)
 {
 	close(fd[PIP_READ]);
 	dup2(fd[PIP_WRITE], STDOUT_FILENO);
-	(*node)->args[0] = funct;
 }
 
 int parent_process(int *fd, pid_t pid, int status, char *buffer)

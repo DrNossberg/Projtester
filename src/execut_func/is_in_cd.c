@@ -17,31 +17,31 @@ char *is_in_cd(clname_t *cd_tree, char *path, char *function)
 {
 	clname_t *node = cd_tree;
 	char *retour = NULL;
+	char *tmp = add_slash(path);
 
-	path = add_slash(path);
 	for (; node; node = node->next) {
 		if (!node->str)
 			continue;
-		retour = is_innode(path, node->str, function);
+		retour = is_innode(tmp, node->str, function);
 		if (retour)
 			break;
-		if (node->chld_cl && launch_child(node, path,
+		if (node->chld_cl && launch_child(node, tmp,
 			function, &retour))
 			break;
 	}
-	free(path);
+	free(tmp);
 	return (retour);
 }
 
 char *launch_child(clname_t *node, char *path, char *function,
 char **retour)
 {
-	char *chld_path = NULL;
+	char *tmp = add_slash(path);
+	char *chld_path = stradd(tmp, node->str);
 
-	path = add_slash(path);
-	chld_path = stradd(path, node->str);
 	*retour = is_in_cd(node->chld_cl, chld_path, function);
 	free(chld_path);
+	free(tmp);
 	return (*retour);
 }
 

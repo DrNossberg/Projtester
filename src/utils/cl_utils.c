@@ -28,14 +28,13 @@ clname_t *init_cl(void)
 	return (node);
 }
 
-clname_t *add_clname_node(clname_t *p_head, char *str, int len)
+clname_t *add_clname_node(clname_t *p_head, char *str)
 {
 	clname_t *node = init_cl();
 
+	node->next = p_head;
 	node->str = strdup(str);
 	if (!node->str)
 		return (NULL);
-	node->next = p_head;
-	node->basepathlen = len;
 	return (node);
 }

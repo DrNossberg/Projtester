@@ -23,7 +23,8 @@ char **get_args_line(char *buffer)
 	arg = malloc(sizeof(char *) * (arglen + 1));
 	if (!arg)
 		return (NULL);
-	arg[0] = NULL;
+	for (int i = 0; i < arglen; i++)
+		arg[i] = NULL;
 	for (int i = 1; ; i++, tmp = NULL) {
 		token = strtok(tmp, " ");
 		if (!token) {
@@ -32,7 +33,6 @@ char **get_args_line(char *buffer)
 		}
 		arg[i] = strdup(token);
 	}
-	arg[arglen] = NULL;
 	return (arg);
 }
 

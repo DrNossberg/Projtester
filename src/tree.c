@@ -14,21 +14,20 @@
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *build_tree(char *folder_name)
+clname_t *build_tree(char **argv)
 {
-	int baselen = 0;
 	clname_t *cl_name = NULL;
 
-	for (int i = 0; folder_name[i]; i++)
-		if (folder_name[i] == '/')
-			baselen++;
-	cl_name = tree(folder_name, baselen);
+    if (argv[2])
+       cl_name = tree(argv[1], argv[2]);
+    else
+       cl_name = tree(argv[1], NULL);
 	if (!cl_name)
 		return (NULL);
 	return (cl_name);
 }
 
-clname_t *tree(char *path, int basepathlen)
+clname_t *tree(char *path, char *function)
 {
     struct dirent **namelist;
 	clname_t *node = init_cl();
@@ -40,10 +39,9 @@ clname_t *tree(char *path, int basepathlen)
     }
 	while (n--) {
 		if (strstr(namelist[n]->d_name, ".tdf")) {
-			node = add_clname_node(node, namelist[n]->d_name, basepathlen);
-			node = read_test(node, path);
+			node = create_test_node(node, function, namelist[n]->d_name, path);
 		} else
-			node = do_recursive(node, namelist[n], path, basepathlen);
+			node = do_recursive(node, namelist[n], function, path);
 		free(namelist[n]);
 	}
 	free(namelist);
@@ -51,12 +49,12 @@ clname_t *tree(char *path, int basepathlen)
 }
 
 clname_t *do_recursive(clname_t *node, struct dirent *file,
-char *path, int basepathlen)
+    char *function, char *path)
 {
 	char *child_path = strfadd(add_slash(path), file->d_name, FREE_STRA);
 
-	node = add_clname_node(node, file->d_name, basepathlen);
-	node->chld_cl = tree(child_path, basepathlen);
+	node = add_clname_node(node, file->d_name);
+	node->chld_cl = tree(child_path, function);
 	free(child_path);
 	return (node);
 }

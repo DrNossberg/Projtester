@@ -20,12 +20,14 @@
 	#define PIP_WRITE	1
 	#define BUF_SIZE	4096
 
+	#define DOT_NBR		5
+	#define SEPARATOR 	'-'
+
 	typedef struct clname_s {
 		char *str;
 		char **path;
 		char **args;
 		char *res;
-		int basepathlen;
 		struct clname_s *chld_cl;
 		struct clname_s *next;
 		int success;

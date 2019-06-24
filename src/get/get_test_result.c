@@ -17,8 +17,9 @@ char *get_test_res(FILE *fd)
 
     getdelim(&buffer, &n, '\0', fd);
     if (strlen(buffer) <= 4)
-        return (NULL);
-    temp = strdup(buffer + 4);
+        temp = strdup("\0");
+    else
+        temp = strdup(buffer + 4);
     free(buffer);
     return (temp);
 }

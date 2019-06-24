@@ -11,19 +11,16 @@
 #include <struct.h>
 #include "prototypes.h"
 
-void display_tree(clname_t *clname, int space)
+void display_tree(clname_t *clname, int char_nbr)
 {
 	clname_t *node = clname;
 
-	if (!node)
-		return;
-	for (; node->next; node = node->next) {
-		print_with_space(space, node->str);
+	for (; node && node->next; node = node->next) {
+		display_path(char_nbr, node->str);
 		if (node->chld_cl) {
 			puts("/");
-			display_tree(node->chld_cl, space + 5);
-		}
-		else if (node->next)
+			display_tree(node->chld_cl, char_nbr + 5);
+		} else if (node->next)
 			putchar('\n');
 	}
 }
@@ -34,7 +31,7 @@ void display_info(clname_t *node, int *options, char *buffer)
 
 	if (node->success && options[SILENCE])
 		return;
-	for (int i = node->basepathlen; node->path[i]; i++)
+	for (int i = 0; node->path[i]; i++)
 		printf("[%s] ", node->path[i]);
 	for (int i = 0; i < len - 4; i++)
 		printf("%c", node->str[i]);
@@ -48,11 +45,11 @@ void display_info(clname_t *node, int *options, char *buffer)
 		"\x1b[34m", "\x1b[0m", node->res, "\x1b[34m", "\x1b[0m", buffer);
 }
 
-void print_with_space(int n, char *str)
+void display_path(int n, char *str)
 {
 	if (str) {
 		while (n--)
-			putchar('-');
+			putchar(SEPARATOR);
 		printf("%s", str);
 	}
 }

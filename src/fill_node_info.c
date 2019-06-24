@@ -5,23 +5,28 @@
 ** parse the file
 */
 
+#include <string.h>
 #include <stdlib.h>
+
 #include "stradd.h"
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *read_test(clname_t *node, char *path)
+clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, char *path)
 {
+	clname_t *node = add_clname_node(p_head, test_name);
 	FILE *fd;
 
-	if (open_file(path, node->str, &fd))
+	if (!node || open_file(path, node->str, &fd))
 		return (NULL);
 	node->path = get_path(path);
 	node->args = get_test_attribut(fd);
 	node->res  = get_test_res(fd);
 	fclose(fd);
-	if (!node->path || !node->args || !node->res)
+	if (!node->path || !node->args)
 		return (NULL);
+	if (function)
+    	node->args[0] = strdup(function);
 	return (node);
 }
 
