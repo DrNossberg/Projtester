@@ -8,6 +8,13 @@ This is the ProjTester, a tool that will help you to execute multiple test on th
 
 It allow you to easely create test for your whole programme
 
+Test should all be contained in the smae directory. A test is a single .tdf file, formatted as following:
+ARGS:_write here the arguments_
+RES:_write here the expected output_
+
+The projTester performe a comparaison between the output of your programme with the gived arguments (ARGS)
+and the RES expected output.
+
 _./projTester -h :_
 USAGE:
 	./projTester TRD [BFT] [outputFile]/[option]
@@ -56,9 +63,8 @@ Summary:
 Passed test : 8/9 - 1 fails
 
 
+If you detect any bug or wants to submit an idea/feedback/improvement feel free to submit it at antoine.orion@epitech.eu
 
-If you detect any bug or wants to submit an idea/feedback/improvement feel free to submit it at antooine.orion@epitech.eu
-
-One last thing, this code has been made in accordance with the 2022 EPITECH promotion's coding rule, witch is very close to 
+One last thing, this code has been made in accordance with the 2022 EPITECH promotion's coding rule, witch follows the standard C one.
 
 Enjoy!

@@ -44,7 +44,6 @@ int open_file(char *way, char *file_name, FILE **fd);
 /*get/*/
     /*get_test_attribut*/
     char **get_test_attribut(FILE *fd);
-    char *get_next_arg(char **str);
     /*get_test_result*/
     char *get_test_res(FILE *fd);
     /*get_path*/
@@ -63,7 +62,6 @@ void run_tested_prog(int *, char *, char **, int *);
 int get_test_result(int *fd, pid_t pid, int status, char *buffer);
 
 
-clname_t *link_node_tocl(clname_t *p_head, clname_t *node);
 char *is_in_cd(clname_t *cd_tree, char *path, char *function);
 char *is_innode(char *path, char *filename, char *function);
 char *launch_child(clname_t *node, char *path, char *function,
@@ -76,7 +74,6 @@ char *is_in_path(char **env, char *function);
 int count_argnbr(char *str);
 void display_info(clname_t *node, int *options, char *buffer);
 void display_help(void);
-void redirect_output(int argc, char *argv[]);
 void display_folder_name(char *path);
 pid_t create_pid(int *fd);
 int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess);

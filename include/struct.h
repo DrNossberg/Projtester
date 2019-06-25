@@ -15,6 +15,8 @@
 	#define VALG		2
 	#define DETAIL		3
 	#define	FAIL		4
+	#define	COLORED_OUTPUT		5
+
 	
 	#define PIP_READ	0
 	#define PIP_WRITE	1

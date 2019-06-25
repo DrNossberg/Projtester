@@ -31,7 +31,7 @@ void do_test(clname_t *test_tree, char *function, char **env, int *options)
 int main(int argc, char *argv[], char **env)
 {
 	clname_t *test_tree;
-	int options[] = {'s', 'l', 'v', 'd', 'f', '\0'};
+	int options[] = {'s', 'l', 'v', 'd', 'f', 'c', '\0'};
 
 	if (parse_entry(argc, argv, options)) {
 		fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");

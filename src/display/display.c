@@ -9,7 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <struct.h>
+
 #include "prototypes.h"
+#include "colors.h"
+
+#define COLORED(Y, X) Y[COLORED_OUTPUT] ? X : "\0"
 
 void display_tree(char *test_folder, clname_t *clname, int char_nbr)
 {
@@ -34,17 +38,17 @@ void display_info(clname_t *node, int *options, char *buffer)
 	if (node->success && options[SILENCE])
 		return;
 	for (int i = node->arg_pathlen; node->path[i]; i++)
-		printf("[%s] ", node->path[i]);
+		printf("[%s%s%s] ", COLORED(options, BOLD_BLUE), node->path[i], WHITE);
 	for (int i = 0; i < len - 4; i++)
 		printf("%c", node->test_name[i]);
 	printf(": ");
 	if (node->success && !options[SILENCE])
-		printf("%sOK!%s\n", "\x1b[32m", "\x1b[0m");
+		printf("%sOK!%s\n", COLORED(options, GREEN), WHITE);
 	else
-		printf("%sKO^%s\n", "\x1b[31m", "\x1b[0m");
+		printf("%sKO^%s\n", COLORED(options, RED), WHITE);
 	if ((options[FAIL] && !node->success) || options[DETAIL])
 		printf("%sExpected:%s\n%s%s\nBut got:\n%s%s\n\n",
-		"\x1b[34m", "\x1b[0m", node->res, "\x1b[34m", "\x1b[0m", buffer);
+		COLORED(options, BLUE), WHITE, node->res, COLORED(options, BLUE), WHITE, buffer);
 }
 
 void display_path(int n, char *str)
