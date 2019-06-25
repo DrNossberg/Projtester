@@ -8,14 +8,17 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
 
-	#include <dirent.h>
+	#include "argv_struct.h"
 
-	#define SILENCE		0
-	#define LIST		1
-	#define VALG		2
-	#define DETAIL		3
-	#define	FAIL		4
-	#define	COLORED_OUTPUT		5
+	#define SILENCE			0
+	#define LIST			1
+	#define VALG			2
+	#define DETAIL			3
+	#define	FAIL			4
+	#define	COLORED_OUTPUT	5
+	#define HELP			6
+
+	#define OPT_NBR			7
 
 	
 	#define PIP_READ	0

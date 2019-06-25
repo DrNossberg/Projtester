@@ -11,29 +11,29 @@
 
 char **get_path(char *path, int *arlen)
 {
-	int i = 0;
-	int j;
-	char **array = NULL;
+    int i = 0;
+    int j;
+    char **array = NULL;
 
-	*arlen = count_path_folder(path);
-	array = malloc(sizeof(char *) * (*arlen + 1));
-	array[*arlen] = NULL;
-	for (int k = 0; k < *arlen; k++) {
-		while (path[i] && path[i] != '/')
-			i++;
-		i++;
-		for (j = 0; path[i + j] && path[i + j] != '/'; j++);
-		array[k] = (j > 0) ? strndup(path + i, j) : NULL;
-	}
-	return (array);
+    *arlen = count_path_folder(path);
+    array = malloc(sizeof(char *) * (*arlen + 1));
+    array[*arlen] = NULL;
+    for (int k = 0; k < *arlen; k++) {
+        while (path[i] && path[i] != '/')
+            i++;
+        i++;
+        for (j = 0; path[i + j] && path[i + j] != '/'; j++);
+        array[k] = (j > 0) ? strndup(path + i, j) : NULL;
+    }
+    return (array);
 }
 
 int count_path_folder(char *path)
 {
-	int len = 0;
+    int len = 0;
 
-	for (int i = 0; path[i]; i++)
-		if (path[i] == '/')
-			len++;
-	return (len);
+    for (int i = 0; path[i]; i++)
+        if (path[i] == '/')
+            len++;
+    return (len);
 }

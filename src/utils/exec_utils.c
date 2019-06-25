@@ -11,9 +11,9 @@
 
 pid_t create_pid(int *fd)
 {
-	if (pipe(fd) == -1) {
-		perror("Pipe fail while exec_command");
-		exit(84);
-	}
-	return (fork());
+    if (pipe(fd) == -1) {
+        perror("Pipe fail while exec_command");
+        exit(84);
+    }
+    return (fork());
 }

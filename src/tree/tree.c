@@ -16,15 +16,15 @@
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *build_tree(char **argv)
+clname_t *build_tree(argd_t *arg_data)
 {
     clname_t *cl_name = NULL;
-    int test_dir_len = count_path_folder(argv[1]);
+    int test_dir_len = count_path_folder(arg_data->test_dir);
 
-    if (argv[2])
-       cl_name = tree(argv[1], argv[2], test_dir_len);
+    if (arg_data->exec)
+       cl_name = tree(arg_data->test_dir, arg_data->exec, test_dir_len);
     else
-       cl_name = tree(argv[1], NULL, test_dir_len);
+       cl_name = tree(arg_data->test_dir, NULL, test_dir_len);
     if (!cl_name)
         return (NULL);
     return (cl_name);

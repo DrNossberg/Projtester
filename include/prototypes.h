@@ -10,16 +10,18 @@
 
 #include <stdio.h>
 #include <sys/types.h>
+#include <dirent.h>
 
+#include "argv_struct.h"
 #include "struct.h"
 
 /* parsing */
-int parse_entry(int argc, char *argv[], int *options);
-void fill_option_tab(char *argv[], int *options);
-void catch_option(int *opt, char *argv);
+int parse_entry(int argc, char *argv[], argd_t *arg_data);
+char *parse_opts(int argc, char *argv[], char *opts);
+int parse_TDR_BFT(int argc, char *argv[], argd_t *arg_data);
 
 /*tree*/
-clname_t *build_tree(char **argv);
+clname_t *build_tree(argd_t *arg_data);
 clname_t *tree(char *path, char *function, int test_dir_len);
 int my_scandir(char *path, struct dirent ***namelist);
 int my_filter_function(const struct dirent *item);
@@ -56,7 +58,7 @@ int open_file(char *way, char *file_name, FILE **fd);
     void display_path(int n, char *str);
 
 /*execute_test*/
-int execute_test_tree(clname_t *cd_tree, char *f_path, int *options);
+int execute_test_tree(clname_t *cd_tree, char *f_path, char *options);
 void execute_test(char **args, char *function_path, char *buffer);
 void run_tested_prog(int *, char *, char **, int *);
 int get_test_result(int *fd, pid_t pid, int status, char *buffer);
@@ -72,7 +74,7 @@ char *find_the_right_path(char **arpath, char *instruction);
 char **my_path_to_ar(char *path);
 char *is_in_path(char **env, char *function);
 int count_argnbr(char *str);
-void display_info(clname_t *node, int *options, char *buffer);
+void display_info(clname_t *node, char *options, char *buffer);
 void display_help(void);
 void display_folder_name(char *path);
 pid_t create_pid(int *fd);
@@ -80,5 +82,5 @@ int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess);
 void summarize(clname_t *cd_tree, int list);
 void display_options(void);
 
-int add_valgrind(char **function, int *options);
+int add_valgrind(char **function, char *options);
 #endif /* PROTOTYPES_H_ */

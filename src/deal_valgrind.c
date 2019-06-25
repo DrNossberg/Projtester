@@ -10,13 +10,13 @@
 #include "stradd.h"
 #include "prototypes.h"
 
-int add_valgrind(char **function, int *options)
+int add_valgrind(char **function, char *options)
 {
-	char *temp;
-	if (!options[VALG])
-		return (1);
-	temp = strdup(*function);
-	*function = stradd("valgrind ", temp);
-	free(temp);
-	return(1);
+    char *temp;
+    if (!options[VALG])
+        return (1);
+    temp = strdup(*function);
+    *function = stradd("valgrind ", temp);
+    free(temp);
+    return(1);
 }

@@ -11,28 +11,28 @@
 
 void ar_free(char **array, int arlen)
 {
-	if (!array)
-		return;
+    if (!array)
+        return;
 
-	for (int i = 0; i < arlen || array[i]; i++)
-		if (array[i])
-			free(array[i]);
-	free(array);
+    for (int i = 0; i < arlen || array[i]; i++)
+        if (array[i])
+            free(array[i]);
+    free(array);
 }
 
 void mr_free(clname_t *clname)
 {
-	clname_t *prev;
+    clname_t *prev;
 
-	while (clname) {
-		if (clname->chld_cl)
-			mr_free(clname->chld_cl);
-		prev = clname;
-		clname = clname->next;
-		free(prev->test_name);
-		ar_free(prev->path, prev->pathlen);
-		ar_free(prev->args, 0);
-		free(prev->res);
-		free(prev);
-	}
+    while (clname) {
+        if (clname->chld_cl)
+            mr_free(clname->chld_cl);
+        prev = clname;
+        clname = clname->next;
+        free(prev->test_name);
+        ar_free(prev->path, prev->pathlen);
+        ar_free(prev->args, 0);
+        free(prev->res);
+        free(prev);
+    }
 }
