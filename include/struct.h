@@ -8,19 +8,6 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
 
-	#include "argv_struct.h"
-
-	#define SILENCE			0
-	#define LIST			1
-	#define VALG			2
-	#define DETAIL			3
-	#define	FAIL			4
-	#define	COLORED_OUTPUT	5
-	#define HELP			6
-
-	#define OPT_NBR			7
-
-	
 	#define PIP_READ	0
 	#define PIP_WRITE	1
 	#define BUF_SIZE	4096
@@ -35,9 +22,6 @@
 
 		char **path;
 		int pathlen;
-
-		/*lenght (in folder) of the test directory passed as arg*/
-		int arg_pathlen;
 
 		int success;
 		struct clname_s *chld_cl;

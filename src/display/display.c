@@ -31,24 +31,24 @@ void display_tree(char *test_folder, clname_t *clname, int char_nbr)
     }
 }
 
-void display_info(clname_t *node, char *options, char *buffer)
+void display_info(clname_t *node,  argd_t *argd, char *buffer)
 {
     int len = strlen(node->test_name);
 
-    if (node->success && options[SILENCE])
+    if (node->success && argd->options[SILENCE])
         return;
-    for (int i = node->arg_pathlen; node->path[i]; i++)
-        printf("[%s%s%s] ", COLORED(options, BOLD_BLUE), node->path[i], WHITE);
+    for (int i = argd->test_dir_len; node->path[i]; i++)
+        printf("[%s%s%s] ", COLORED(argd->options, BOLD_BLUE), node->path[i], WHITE);
     for (int i = 0; i < len - 4; i++)
         printf("%c", node->test_name[i]);
     printf(": ");
-    if (node->success && !options[SILENCE])
-        printf("%sOK!%s\n", COLORED(options, GREEN), WHITE);
+    if (node->success && !argd->options[SILENCE])
+        printf("%sOK!%s\n", COLORED(argd->options, GREEN), WHITE);
     else
-        printf("%sKO^%s\n", COLORED(options, RED), WHITE);
-    if ((options[FAIL] && !node->success) || options[DETAIL])
+        printf("%sKO^%s\n", COLORED(argd->options, RED), WHITE);
+    if ((argd->options[FAIL] && !node->success) || argd->options[DETAIL])
         printf("%sExpected:%s\n%s%s\nBut got:\n%s%s\n\n",
-        COLORED(options, BLUE), WHITE, node->res, COLORED(options, BLUE), WHITE, buffer);
+        COLORED(argd->options, BLUE), WHITE, node->res, COLORED(argd->options, BLUE), WHITE, buffer);
 }
 
 void display_path(int n, char *str)

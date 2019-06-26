@@ -13,7 +13,7 @@ void display_help(void)
 {
     puts("USAGE:");
     puts("\t./projTester TRD [BFT] [outputFile]/[option]\n");
-    puts("DESCRIPTION");
+    puts("DESCRIPTION:");
     printf("\t%s", "TRD");
     printf("\t\t%s\n", "root directory of all the tests");
     printf("\t%s", "BFT");
@@ -22,7 +22,6 @@ void display_help(void)
     printf("\t%s\n", "file in witch the ressult is printed");
     printf("\t%s\n", "Option :");
     display_options();
-    exit(0);
 }
 
 void display_options(void)

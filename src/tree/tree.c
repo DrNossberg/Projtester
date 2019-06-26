@@ -16,21 +16,7 @@
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *build_tree(argd_t *arg_data)
-{
-    clname_t *cl_name = NULL;
-    int test_dir_len = count_path_folder(arg_data->test_dir);
-
-    if (arg_data->exec)
-       cl_name = tree(arg_data->test_dir, arg_data->exec, test_dir_len);
-    else
-       cl_name = tree(arg_data->test_dir, NULL, test_dir_len);
-    if (!cl_name)
-        return (NULL);
-    return (cl_name);
-}
-
-clname_t *tree(char *path, char *function, int test_dir_len)
+clname_t *build_tree(char *path, argd_t *arg_data)
 {
     struct dirent **namelist;
     clname_t *node = init_cl();
@@ -39,15 +25,13 @@ clname_t *tree(char *path, char *function, int test_dir_len)
 
     while (n--) {
         if (strstr(namelist[n]->d_name, ".tdf"))
-            node = create_test_node(node, function, namelist[n]->d_name, path);
+            node = create_test_node(node, arg_data->exec, namelist[n]->d_name, path);
         else {
             child_path = strfadd(add_slash(path), namelist[n]->d_name, FREE_STRA);
             node = add_clname_node(node, namelist[n]->d_name);
-            node->chld_cl = tree(child_path, function, test_dir_len);
+            node->chld_cl = build_tree(child_path, arg_data);
             free(child_path);
         }
-        if (node)
-            node->arg_pathlen = test_dir_len;
         free(namelist[n]);
     }
     free(namelist);

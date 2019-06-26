@@ -15,7 +15,7 @@
 
 int parse_entry(int argc, char *argv[], argd_t *arg_data)
 {
-    char *opts = "slvdfch";
+    char *opts = OPTS;
 
     if (argc < 2) {
         fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");
@@ -25,13 +25,13 @@ int parse_entry(int argc, char *argv[], argd_t *arg_data)
     if (!arg_data->options)
         return (84);
     if (arg_data->options[HELP]) {
+        free_argd_data(arg_data);
         display_help();
-        free(arg_data->options);
-        free(arg_data);
-            exit(0);
+        exit(0);
     }
     if (parse_TDR_BFT(argc, argv, arg_data))
         return (84);
+    arg_data->test_dir_len = count_path_folder(arg_data->test_dir);
     return (0);
 }
 
@@ -49,7 +49,7 @@ char *parse_opts(int argc, char *argv[], char *opts)
     char *opts_tab = strdup(opts);
 
     if (!opts_tab) {
-        fprintf(stderr, "Parse opts, %s\n", "malloc error");
+        fprintf(stderr, "Parse opts, : %s\n", strerror(errno));
         return (NULL);
     }
     while ((curr = getopt(argc, argv, opts)) != -1) {

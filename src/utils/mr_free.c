@@ -7,7 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "struct.h"
+#include "argd_struct.h"
 
 void ar_free(char **array, int arlen)
 {
@@ -35,4 +37,15 @@ void mr_free(clname_t *clname)
         free(prev->res);
         free(prev);
     }
+}
+
+void free_argd_data(argd_t *arg_data)
+{
+    if (!arg_data)
+        return;
+    free(arg_data->options);
+    free(arg_data->test_dir);
+    if (arg_data->exec)
+        free(arg_data->exec);
+    free(arg_data);
 }

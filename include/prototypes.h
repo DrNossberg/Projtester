@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include "argv_struct.h"
+#include "argd_struct.h"
 #include "struct.h"
 
 /* parsing */
@@ -21,8 +21,7 @@ char *parse_opts(int argc, char *argv[], char *opts);
 int parse_TDR_BFT(int argc, char *argv[], argd_t *arg_data);
 
 /*tree*/
-clname_t *build_tree(argd_t *arg_data);
-clname_t *tree(char *path, char *function, int test_dir_len);
+clname_t *build_tree(char *, argd_t *arg_data);
 int my_scandir(char *path, struct dirent ***namelist);
 int my_filter_function(const struct dirent *item);
 
@@ -35,10 +34,12 @@ int open_file(char *way, char *file_name, FILE **fd);
     /*my_free*/
     void mr_free(clname_t *clname);
     void ar_free(char **array, int arlen);
+    void free_argd_data(argd_t *arg_data);
 
     /*cl_utils*/
     clname_t *add_clname_node(clname_t *p_head, char *str);
     clname_t *init_cl(void);
+    argd_t *init_argd_data(void);
 
     /*add_slash*/
     char *add_slash(char *path);
@@ -58,7 +59,8 @@ int open_file(char *way, char *file_name, FILE **fd);
     void display_path(int n, char *str);
 
 /*execute_test*/
-int execute_test_tree(clname_t *cd_tree, char *f_path, char *options);
+void do_test(clname_t *test_tree, argd_t *arg_data, char **env);
+int execute_test_tree(clname_t *cd_tree, argd_t *, char *);
 void execute_test(char **args, char *function_path, char *buffer);
 void run_tested_prog(int *, char *, char **, int *);
 int get_test_result(int *fd, pid_t pid, int status, char *buffer);
@@ -74,9 +76,13 @@ char *find_the_right_path(char **arpath, char *instruction);
 char **my_path_to_ar(char *path);
 char *is_in_path(char **env, char *function);
 int count_argnbr(char *str);
-void display_info(clname_t *node, char *options, char *buffer);
-void display_help(void);
-void display_folder_name(char *path);
+
+/*display/*/
+    void display_help(void);
+    /*display.c*/
+    void display_info(clname_t *node, argd_t *, char *buffer);
+    void display_folder_name(char *path);
+
 pid_t create_pid(int *fd);
 int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess);
 void summarize(clname_t *cd_tree, int list);

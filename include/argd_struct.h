@@ -7,6 +7,18 @@
 
 #ifndef ARGV_STRUCT_H
 #define ARGV_STRUCT_H
+    
+    #define OPTS "slvdfch"
+
+    #define SILENCE         0
+    #define LIST            1
+    #define VALG            2
+    #define DETAIL          3
+    #define FAIL            4
+    #define COLORED_OUTPUT  5
+    #define HELP            6
+
+    #define OPT_NBR         7
 
     typedef struct argv_data_s{
         char *options;

@@ -14,7 +14,25 @@
 
 #include "prototypes.h"
 
-int execute_test_tree(clname_t *cd_tree, char *f_path, char *options)
+void do_test(clname_t *test_tree, argd_t *arg_data, char **env)
+{
+    char *funct_path = is_in_cd(test_tree, ".", arg_data->exec);
+
+    funct_path = is_in_path(env, arg_data->exec);
+    if (!funct_path) {
+        fprintf(stderr, "Executable passed as argument hasn't been found : %s\n", arg_data->exec);
+        exit(84);
+    }
+    // if (!add_valgrind(&funct_path, options))
+        // return;
+    if (execute_test_tree(test_tree, arg_data, funct_path))
+        return;
+    summarize(test_tree, arg_data->options[LIST]);
+    free(funct_path);
+    return;
+}
+
+int execute_test_tree(clname_t *cd_tree, argd_t *arg_data, char *f_path)
 {
     char buffer[BUF_SIZE];
     clname_t *node = cd_tree;
@@ -23,12 +41,12 @@ int execute_test_tree(clname_t *cd_tree, char *f_path, char *options)
         if (!node->test_name)
             continue;
         if (node->chld_cl)
-            execute_test_tree(node->chld_cl, f_path, options);
+            execute_test_tree(node->chld_cl, arg_data, f_path);
         else {
             execute_test(node->args, f_path, buffer);
             if (!strcmp(node->res, buffer))
                 node->success = 1;
-            display_info(node, options, buffer);
+            display_info(node, arg_data, buffer);
         }
     }
     return (0);
