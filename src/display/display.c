@@ -38,7 +38,8 @@ void display_info(clname_t *node,  argd_t *argd, char *buffer)
     if (node->success && argd->options[SILENCE])
         return;
     for (int i = argd->test_dir_len; node->path[i]; i++)
-        printf("[%s%s%s] ", COLORED(argd->options, BOLD_BLUE), node->path[i], WHITE);
+        printf("[%s%s%s] ", COLORED(argd->options, BOLD_BLUE),
+            node->path[i], WHITE);
     for (int i = 0; i < len - 4; i++)
         printf("%c", node->test_name[i]);
     printf(": ");
@@ -48,7 +49,8 @@ void display_info(clname_t *node,  argd_t *argd, char *buffer)
         printf("%sKO^%s\n", COLORED(argd->options, RED), WHITE);
     if ((argd->options[FAIL] && !node->success) || argd->options[DETAIL])
         printf("%sExpected:%s\n%s%s\nBut got:\n%s%s\n\n",
-        COLORED(argd->options, BLUE), WHITE, node->res, COLORED(argd->options, BLUE), WHITE, buffer);
+        COLORED(argd->options, BLUE), WHITE,
+        node->res, COLORED(argd->options, BLUE), WHITE, buffer);
 }
 
 void display_path(int n, char *str)
