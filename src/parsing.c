@@ -9,81 +9,48 @@
 #include <string.h>
 #include <sys/stat.h>   /*stat*/
 #include <unistd.h>     /*getopt*/
-#include <errno.h>
+#include <errno.h>      /*errno*/
 
 #include "prototypes.h"
 
-int parse_entry(int argc, char *argv[], argd_t *arg_data)
-{
-    char *opts = OPTS;
-
-    if (argc < 2) {
-        fprintf(stderr, "Invalid intput, retry with -h for more informations.\n");
+int parse_entry(int argc, char *argv[], argd_t *argd) {
+    if (!(argd->options = strdup(OPTS))) {
+        fprintf(stderr, "Malloc issue : %s\n", strerror(errno));
         return (84);
     }
-    arg_data->options = parse_opts(argc, argv, opts);
-    if (!arg_data->options)
+    if (!parse_opts(argc, argv, argd))
         return (84);
-    if (arg_data->options[HELP]) {
-        free_argd_data(arg_data);
+    if (argc < 2 || !argd->test_dir || argd->options[HELP]) {
+        free_argd_data(argd);
         display_help();
         exit(0);
     }
-    if (parse_TDR_BFT(argc, argv, arg_data))
-        return (84);
-    arg_data->test_dir_len = count_path_folder(arg_data->test_dir);
+    argd->test_dir_len = count_path_folder(argd->test_dir);
     return (0);
 }
 
-int find_position(char opts_tab[], char opt)
-{
+int correct_opt_tab(char opts_tab[], char opt) {
     for (int i = 0; opts_tab[i]; ++i)
         if (opts_tab[i] == opt)
             return (i);
     return (HELP);
 }
 
-char *parse_opts(int argc, char *argv[], char *opts)
-{
-    int curr;
-    char *opts_tab = strdup(opts);
-
-    if (!opts_tab) {
-        fprintf(stderr, "Parse opts, : %s\n", strerror(errno));
-        return (NULL);
-    }
-    while ((curr = getopt(argc, argv, opts)) != -1) {
-        switch (curr) {
-        case '?':
-            display_help();
-            free(opts_tab);
-            return (NULL);
-        default:
-            opts_tab[find_position(opts_tab, curr)] = 1;
+char *parse_opts(int argc, char *argv[], argd_t *argd) {
+    for (int opt; (opt = getopt(argc, argv, OPTS)) != -1;)
+        switch (opt) {
+            case '?':
+                fprintf(stderr, "Unknown option : %c", optopt);
+                free(argd->options);
+                return (NULL);
+            default:
+                argd->options[correct_opt_tab(argd->options, opt)] = 1;
         }
-    }
-    for (int i = 0; opts_tab[i]; i++)
-        opts_tab[i] = (opts_tab[i] > 1) ? 0 : opts_tab[i];
-    return (opts_tab);
-}
-
-int parse_TDR_BFT(int argc, char *argv[], argd_t *arg_data)
-{
-    static const struct stat null_struct;
-    struct stat stbuf;
-    errno = 0;
-
-    for (int i = 1; i < argc; ++i, errno = 0, stbuf = null_struct) {
-        if (argv[i][0] == '-')
-            continue;
-        if (stat(argv[i], &stbuf) == -1)
-            arg_data->exec = strdup(argv[i]);
-        if (S_ISDIR(stbuf.st_mode))
-            arg_data->test_dir = strdup(argv[i]);
-    }
-    if (!arg_data->test_dir) {
-        display_help();
-        return (84);
-    }
-    return (0);
+    for (int i = 0; argd->options[i]; i++)
+        argd->options[i] = (argd->options[i] > 1) ? 0 : argd->options[i];
+    if (optind < argc)
+        argd->test_dir  = strdup(argv[optind]);
+    if (optind + 1 < argc)
+        argd->exec      = strdup(argv[optind + 1]);
+    return (argd->options);
 }

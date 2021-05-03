@@ -17,8 +17,8 @@
 
 /* parsing */
 int parse_entry(int argc, char *argv[], argd_t *arg_data);
-char *parse_opts(int argc, char *argv[], char *opts);
-int parse_TDR_BFT(int argc, char *argv[], argd_t *arg_data);
+char *parse_opts(int argc, char *argv[], argd_t *argd);
+// int parse_TDR_BFT(int argc, char *argv[], argd_t *arg_data);
 
 /*tree*/
 clname_t *build_tree(char *, argd_t *arg_data);
@@ -58,15 +58,18 @@ int open_file(char *way, char *file_name, FILE **fd);
     void display_tree(char *test_folder, clname_t *clname, int space);
     void display_path(int n, char *str);
 
-/*execute_test*/
-void do_test(clname_t *test_tree, argd_t *arg_data, char **env);
-int execute_test_tree(clname_t *cd_tree, argd_t *, char *);
-void execute_test(char **args, char *function_path, char *buffer);
-void run_tested_prog(int *, char *, char **, int *);
-int get_test_result(int *fd, pid_t pid, int status, char *buffer);
+/*test_execution*/
+    /*execute_test*/
+    void do_test(clname_t *test_tree, argd_t *arg_data, char **env);
+    int execute_test_tree(clname_t *cd_tree, argd_t *, char *);
+    void execute_test(char **args, char *function_path, char *buffer);
+    void run_tested_prog(int *, char *, char **, int *);
+    int get_test_result(int *fd, pid_t pid, int status, char *buffer);
 
+    /*locate_exec*/
+    char *locate_exec(clname_t *test_tree, argd_t *arg_data, char **env);
 
-char *is_in_cd(clname_t *cd_tree, char *path, char *function);
+char *search_in_current_directory(clname_t *cd_tree, char *path, char *function);
 char *is_innode(char *path, char *filename, char *function);
 char *launch_child(clname_t *node, char *path, char *function,
 char **retour);
@@ -74,11 +77,15 @@ char **str_to_word_array(char const *str, char s);
 char *my_getpath(char **env);
 char *find_the_right_path(char **arpath, char *instruction);
 char **my_path_to_ar(char *path);
-char *is_in_path(char **env, char *function);
+char *search_in_path(char **env, char *function);
 int count_argnbr(char *str);
 
 /*display/*/
     void display_help(void);
+    void display_usage(void);
+    void display_description(void);
+    void display_options(void);
+
     /*display.c*/
     void display_info(clname_t *node, argd_t *, char *buffer);
     void display_folder_name(char *path);
@@ -86,7 +93,9 @@ int count_argnbr(char *str);
 pid_t create_pid(int *fd);
 int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess);
 void summarize(clname_t *cd_tree, int list);
-void display_options(void);
 
+/*valgrind*/
 int add_valgrind(char **function, char *options);
+
+
 #endif /* PROTOTYPES_H_ */

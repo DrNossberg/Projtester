@@ -9,14 +9,15 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "stradd.h"
 #include "struct.h"
 #include "prototypes.h"
 
-char *is_in_cd(clname_t *cd_tree, char *path, char *function)
-{
+char *search_in_current_directory(clname_t *cd_tree, char *path, char *function) {
     clname_t *node = cd_tree;
     char *retour = NULL;
+    printf("path : %s\n", path);
     char *tmp = add_slash(path);
 
     for (; node; node = node->next) {
@@ -39,7 +40,7 @@ char **retour)
     char *tmp = add_slash(path);
     char *chld_path = stradd(tmp, node->test_name);
 
-    *retour = is_in_cd(node->chld_cl, chld_path, function);
+    *retour = search_in_current_directory(node->chld_cl, chld_path, function);
     free(chld_path);
     free(tmp);
     return (*retour);

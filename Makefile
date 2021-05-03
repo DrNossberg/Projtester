@@ -11,7 +11,7 @@ SRC		:=	$(wildcard $(SRCDIR)/*.c) \
 			$(wildcard $(SRCDIR)/tree/*.c) \
 			$(wildcard $(SRCDIR)/utils/*.c) \
 			$(wildcard $(SRCDIR)/display/*.c) \
-			$(wildcard $(SRCDIR)/execut_func/*.c)
+			$(wildcard $(SRCDIR)/test_execution/*.c)
 OBJ		:=	$(SRC:.c=.o)
 CFLAGS	:=	-I ./include -g -Wall -W
 

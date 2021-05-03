@@ -12,12 +12,11 @@
 #include "struct.h"
 #include "prototypes.h"
 
-clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, char *path)
-{
+clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, char *path) {
     clname_t *node = add_clname_node(p_head, test_name);
     FILE *fd;
 
-    if (!function)
+    if (!function && node)
         return (node);
     if (!node || open_file(path, node->test_name, &fd))
         return (NULL);
@@ -31,8 +30,7 @@ clname_t *create_test_node(clname_t *p_head, char *function, char *test_name, ch
     return (node);
 }
 
-int open_file(char *path, char *file_name, FILE **fd)
-{
+int open_file(char *path, char *file_name, FILE **fd) {
     char *file_path = NULL;
 
     file_path = strfadd(add_slash(path), file_name, FREE_STRA);

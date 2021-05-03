@@ -12,19 +12,17 @@
 
 #include "prototypes.h"
 
-char **get_args_line(char *buffer)
-{
-    int arglen = 2;
+char **get_args_line(char *buffer) {
     char **arg = NULL;
     char *tmp = buffer;
     char *token;
+    int arglen = 2;
 
     arglen += count_argnbr(buffer);
     arg = malloc(sizeof(char *) * (arglen + 1));
     if (!arg)
         return (NULL);
-    for (int i = 0; i < arglen; i++)
-        arg[i] = NULL;
+    for (int i = 0; i < arglen; i++, arg[i] = NULL);
     for (int i = 1; ; i++, tmp = NULL) {
         token = strtok(tmp, " ");
         if (!token) {
@@ -36,8 +34,7 @@ char **get_args_line(char *buffer)
     return (arg);
 }
 
-char **get_test_attribut(FILE *fd)
-{
+char **get_test_attribut(FILE *fd) {
     size_t n = 0;
     char **arg = NULL;
     char *buffer = NULL;

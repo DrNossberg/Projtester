@@ -8,15 +8,18 @@
 #ifndef ARGV_STRUCT_H
 #define ARGV_STRUCT_H
     
-    #define OPTS "slvdfch"
+    #define TESTFILE_PATTERN   "*.tdf"
 
-    #define SILENCE         0
-    #define LIST            1
-    #define VALG            2
-    #define DETAIL          3
-    #define FAIL            4
-    #define COLORED_OUTPUT  5
-    #define HELP            6
+
+    #define OPTS "+slvdfch"
+
+    #define SILENCE         1
+    #define LIST            2
+    #define VALG            3
+    #define DETAIL          4
+    #define FAIL            5
+    #define COLORED_OUTPUT  6
+    #define HELP            7
 
     #define OPT_NBR         7
 

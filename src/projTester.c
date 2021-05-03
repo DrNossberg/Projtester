@@ -11,8 +11,7 @@
 
 #include "prototypes.h"
 
-int projTester(argd_t *arg_data, char **env)
-{
+int projTester(argd_t *arg_data, char **env) {
     clname_t *test_tree = build_tree(arg_data->test_dir, arg_data);
 
     if (!test_tree)
@@ -25,8 +24,7 @@ int projTester(argd_t *arg_data, char **env)
     return (0);
 }
 
-int main(int argc, char *argv[], char **env)
-{
+int main(int argc, char *argv[], char **env) {
     argd_t *arg_data = init_argd_data();
     int ret = 0;
 
@@ -34,7 +32,12 @@ int main(int argc, char *argv[], char **env)
         free(arg_data);
         return (84);
     }
-    ret = projTester(arg_data, env);
-    free_argd_data(arg_data);
+    for (int i = 1; i < OPT_NBR; i++)
+        printf("[%c] : %d\n", OPTS[i], arg_data->options[i]);
+        // arg_data->opts_tab[i] = (arg_data->opts_tab[i] > 1) ? 0 : arg_data->opts_tab[i];
+    printf("dir : %s\n", arg_data->test_dir);
+    printf("exec : %s\n", arg_data->exec);
+    // ret = projTester(arg_data, env);
+    // free_argd_data(arg_data);
     return (ret);
 }

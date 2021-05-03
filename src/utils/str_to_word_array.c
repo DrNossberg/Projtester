@@ -23,7 +23,7 @@ char **str_to_word_array(char const *str, char s)
     for (i = 0; i < nb_word; i++, str++) {
         for (j = 0; str[j] != s && str[j] != '\0'; j++);
         array[i] = malloc(sizeof(char) * (j + 1));
-        for (j = 0; *str != s && *str != '\0';    str++, j++)
+        for (j = 0; *str != s && *str != '\0'; str++, j++)
             array[i][j] = *str;
         array[i][j] = '\0';
     }

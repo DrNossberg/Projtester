@@ -14,26 +14,21 @@
 
 #include "prototypes.h"
 
-void do_test(clname_t *test_tree, argd_t *arg_data, char **env)
-{
-    char *funct_path = is_in_cd(test_tree, ".", arg_data->exec);
+void do_test(clname_t *test_tree, argd_t *arg_data, char **env) {
+    char *exec_path = locate_exec(test_tree, arg_data, env);
 
-    funct_path = is_in_path(env, arg_data->exec);
-    if (!funct_path) {
-        fprintf(stderr, "Executable passed as argument hasn't been found : %s\n", arg_data->exec);
-        exit(84);
-    }
-    // if (!add_valgrind(&funct_path, options))
+    if (!exec_path)
+        return;
+    // if (!add_valgrind(&exec_path, options))
         // return;
-    if (execute_test_tree(test_tree, arg_data, funct_path))
+    if (execute_test_tree(test_tree, arg_data, exec_path))
         return;
     summarize(test_tree, arg_data->options[LIST]);
-    free(funct_path);
+    free(exec_path);
     return;
 }
 
-int execute_test_tree(clname_t *cd_tree, argd_t *arg_data, char *f_path)
-{
+int execute_test_tree(clname_t *cd_tree, argd_t *arg_data, char *f_path) {
     char buffer[BUF_SIZE];
     clname_t *node = cd_tree;
 
@@ -52,8 +47,7 @@ int execute_test_tree(clname_t *cd_tree, argd_t *arg_data, char *f_path)
     return (0);
 }
 
-void execute_test(char **args, char *function_path, char *buffer)
-{
+void execute_test(char **args, char *function_path, char *buffer) {
     int status = 0;
     int fd[2];
     pid_t pid = create_pid(fd);
@@ -72,8 +66,7 @@ void execute_test(char **args, char *function_path, char *buffer)
 }
 
 void run_tested_prog(int *fd, char *function_path,
-    char **args, int *status)
-{
+    char **args, int *status) {
     close(fd[PIP_READ]);
     dup2(fd[PIP_WRITE], STDOUT_FILENO);
     *status = execv(function_path, args);
@@ -81,8 +74,7 @@ void run_tested_prog(int *fd, char *function_path,
         exit(84);
 }
 
-int get_test_result(int *fd, pid_t pid, int status, char *buffer)
-{
+int get_test_result(int *fd, pid_t pid, int status, char *buffer) {
     int nbytes = 0;
 
     close(fd[PIP_WRITE]);

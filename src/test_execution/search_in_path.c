@@ -13,7 +13,7 @@
 #include "struct.h"
 #include "prototypes.h"
 
-char *is_in_path(char **env, char *function)
+char *search_in_path(char **env, char *function)
 {
     char **arpath = my_path_to_ar(my_getpath(env));
     char *path = NULL;

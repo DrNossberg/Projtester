@@ -53,8 +53,7 @@ void display_info(clname_t *node,  argd_t *argd, char *buffer)
         node->res, COLORED(argd->options, BLUE), WHITE, buffer);
 }
 
-void display_path(int n, char *str)
-{
+void display_path(int n, char *str) {
     if (str) {
         while (n--)
             putchar(SEPARATOR);
@@ -62,8 +61,7 @@ void display_path(int n, char *str)
     }
 }
 
-void display_folder_name(char *path)
-{
+void display_folder_name(char *path) {
     int i = strlen(path);
     int len = i - 1;
 
@@ -72,3 +70,11 @@ void display_folder_name(char *path)
         i++;
     printf("%s%s", path + i, path[len] == '/' ? "\n" : "/\n");
 }
+
+// void display_parsed_info(argd_t *argd) {
+//     printf("Exec : %s\n", arg_data->exec);
+//     printf("Test_dir : %s\n", arg_data->test_dir);
+//     for (int i = 1; i < OPT_NBR; i++)
+//         printf("[%c] : %d ", OPTS[i], arg_data->options[i]);
+//     puts(" ");
+// }
