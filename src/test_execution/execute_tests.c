@@ -15,7 +15,7 @@
 #include "prototypes.h"
 
 void do_test(clname_t *test_tree, argd_t *arg_data, char **env) {
-    char *exec_path = locate_exec(test_tree, arg_data, env);
+    char *exec_path = locate_exec(arg_data, env);
 
     if (!exec_path)
         return;

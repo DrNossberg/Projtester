@@ -11,19 +11,14 @@
 #include "struct.h"
 #include "argd_struct.h"
 
-void ar_free(char **array, int arlen)
-{
-    if (!array)
-        return;
-
-    for (int i = 0; i < arlen || array[i]; i++)
+void ar_free(char **array, int arlen) {
+    for (int i = 0; array[i] || i < arlen; i++)
         if (array[i])
             free(array[i]);
     free(array);
 }
 
-void mr_free(clname_t *clname)
-{
+void mr_free(clname_t *clname) {
     clname_t *prev;
 
     while (clname) {
@@ -39,8 +34,7 @@ void mr_free(clname_t *clname)
     }
 }
 
-void free_argd_data(argd_t *arg_data)
-{
+void free_argd_data(argd_t *arg_data) {
     if (!arg_data)
         return;
     free(arg_data->options);

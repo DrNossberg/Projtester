@@ -32,12 +32,13 @@ int main(int argc, char *argv[], char **env) {
         free(arg_data);
         return (84);
     }
-    for (int i = 1; i < OPT_NBR; i++)
-        printf("[%c] : %d\n", OPTS[i], arg_data->options[i]);
+    // for (int i = 1; i < OPT_NBR; i++)
+    //     printf("[%c] : %d\n", OPTS[i], arg_data->options[i]);
+    // printf("dir : %s\n", arg_data->test_dir);
+    // printf("exec : %s\n", arg_data->exec);
+
         // arg_data->opts_tab[i] = (arg_data->opts_tab[i] > 1) ? 0 : arg_data->opts_tab[i];
-    printf("dir : %s\n", arg_data->test_dir);
-    printf("exec : %s\n", arg_data->exec);
-    // ret = projTester(arg_data, env);
-    // free_argd_data(arg_data);
+    ret = projTester(arg_data, env);
+    free_argd_data(arg_data);
     return (ret);
 }

@@ -67,12 +67,13 @@ int open_file(char *way, char *file_name, FILE **fd);
     int get_test_result(int *fd, pid_t pid, int status, char *buffer);
 
     /*locate_exec*/
-    char *locate_exec(clname_t *test_tree, argd_t *arg_data, char **env);
+    char *locate_exec(argd_t *arg_data, char **env);
 
-char *search_in_current_directory(clname_t *cd_tree, char *path, char *function);
-char *is_innode(char *path, char *filename, char *function);
-char *launch_child(clname_t *node, char *path, char *function,
-char **retour);
+char *search_in_current_directory(char *function);
+// char *search_in_current_directory(clname_t *cd_tree, char *path, char *function);
+// char *is_innode(char *path, char *filename, char *function);
+// char *launch_child(clname_t *node, char *path, char *function,
+// char **retour);
 char **str_to_word_array(char const *str, char s);
 char *my_getpath(char **env);
 char *find_the_right_path(char **arpath, char *instruction);

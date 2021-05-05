@@ -13,8 +13,7 @@
 #include "struct.h"
 #include "prototypes.h"
 
-char *search_in_path(char **env, char *function)
-{
+char *search_in_path(char **env, char *function) {
     char **arpath = my_path_to_ar(my_getpath(env));
     char *path = NULL;
 
@@ -25,8 +24,7 @@ char *search_in_path(char **env, char *function)
     return (path);
 }
 
-char *my_getpath(char **env)
-{
+char *my_getpath(char **env) {
     int i = 0;
 
     for (; env[i] && strncmp("PATH=", env[i], 5); i++);
@@ -35,8 +33,7 @@ char *my_getpath(char **env)
     return (strdup(env[i] + 5));
 }
 
-char *find_the_right_path(char **arpath, char *instruction)
-{
+char *find_the_right_path(char **arpath, char *instruction) {
     char *path = NULL;
 
     for (int i = 0; arpath[i]; i++) {
@@ -50,8 +47,7 @@ char *find_the_right_path(char **arpath, char *instruction)
     return (NULL);
 }
 
-char **my_path_to_ar(char *my_get_path)
-{
+char **my_path_to_ar(char *my_get_path) {
     char **arpath = str_to_word_array(my_get_path, ':');
     char *temp = NULL;
 
