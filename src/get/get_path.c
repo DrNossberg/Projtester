@@ -9,11 +9,9 @@
 #include <stdlib.h>
 #include "prototypes.h"
 
-char **get_path(char *path, int *arlen)
-{
-    int i = 0;
-    int j;
+char **get_path(char *path, int *arlen) {
     char **array = NULL;
+    int j, i = 0;
 
     *arlen = count_path_folder(path);
     array = malloc(sizeof(char *) * (*arlen + 1));
@@ -28,8 +26,7 @@ char **get_path(char *path, int *arlen)
     return (array);
 }
 
-int count_path_folder(char *path)
-{
+int count_path_folder(char *path) {
     int len = 0;
 
     for (int i = 0; path[i]; i++)

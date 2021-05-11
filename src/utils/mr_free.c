@@ -12,6 +12,8 @@
 #include "argd_struct.h"
 
 void ar_free(char **array, int arlen) {
+    if (!array)
+        return;
     for (int i = 0; array[i] || i < arlen; i++)
         if (array[i])
             free(array[i]);

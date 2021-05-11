@@ -9,11 +9,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <struct.h>
+#include <unistd.h>
 
 #include "prototypes.h"
 #include "colors.h"
 
 #define COLORED(Y, X) Y[COLORED_OUTPUT] ? X : "\0"
+#define COLORED_LINE(Y, VAR, X) Y[COLORED_OUTPUT] ? printf("%s%s%s", X, VAR, WHITE) : printf(VAR)
 
 void display_tree(char *test_folder, clname_t *clname, int char_nbr)
 {
@@ -31,22 +33,17 @@ void display_tree(char *test_folder, clname_t *clname, int char_nbr)
     }
 }
 
-void display_info(clname_t *node,  argd_t *argd, char *buffer)
-{
-    int len = strlen(node->test_name);
-
+void display_info(clname_t *node,  argd_t *argd, char *buffer) {
     if (node->success && argd->options[SILENCE])
         return;
-    for (int i = argd->test_dir_len; node->path[i]; i++)
-        printf("[%s%s%s] ", COLORED(argd->options, BOLD_BLUE),
-            node->path[i], WHITE);
-    for (int i = 0; i < len - 4; i++)
-        printf("%c", node->test_name[i]);
-    printf(": ");
+    // argd->test_dir_len -> //TODO could become an option
+    for (int i = 0; node->path[i]; i++)
+        printf("[%s%s%s] ", COLORED(argd->options, BOLD_BLUE), node->path[i], WHITE);
+    printf("%.*s: ", (int) (strlen(node->test_name) - (strlen(TESTFILE_PATTERN) - 1)), node->test_name);
     if (node->success && !argd->options[SILENCE])
-        printf("%sOK!%s\n", COLORED(argd->options, GREEN), WHITE);
+        COLORED_LINE(argd->options, "OK!\n", GREEN);
     else
-        printf("%sKO^%s\n", COLORED(argd->options, RED), WHITE);
+        COLORED_LINE(argd->options, "KO^\n", RED);
     if ((argd->options[FAIL] && !node->success) || argd->options[DETAIL])
         printf("%sExpected:%s\n%s%s\nBut got:\n%s%s\n\n",
         COLORED(argd->options, BLUE), WHITE,

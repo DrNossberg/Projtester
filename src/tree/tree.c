@@ -24,9 +24,8 @@ clname_t *build_tree(char *path, argd_t *arg_data) {
     char *child_path = NULL;
 
     while (n--) {
-        if (!fnmatch(TESTFILE_PATTERN, namelist[n]->d_name, 0)) {
+        if (!fnmatch(TESTFILE_PATTERN, namelist[n]->d_name, 0))
             node = create_test_node(node, arg_data->exec, namelist[n]->d_name, path);
-        }
         else {
             child_path = strfadd(add_slash(path), namelist[n]->d_name, FREE_STRA);
             node = add_clname_node(node, namelist[n]->d_name);

@@ -53,11 +53,6 @@ int open_file(char *way, char *file_name, FILE **fd);
     char **get_path(char *path, int *arlen);
     int count_path_folder(char *path);
 
-/*display/*/
-    /*display*/
-    void display_tree(char *test_folder, clname_t *clname, int space);
-    void display_path(int n, char *str);
-
 /*test_execution*/
     /*execute_test*/
     void do_test(clname_t *test_tree, argd_t *arg_data, char **env);
@@ -82,18 +77,24 @@ char *search_in_path(char **env, char *function);
 int count_argnbr(char *str);
 
 /*display/*/
+    /*display*/
+    void display_tree(char *test_folder, clname_t *clname, int space);
+    void display_path(int n, char *str);
+    void display_info(clname_t *node, argd_t *, char *buffer);
+    void display_folder_name(char *path);
+
+    /*display_help*/
     void display_help(void);
     void display_usage(void);
     void display_description(void);
     void display_options(void);
+    void display_example(void);
 
-    /*display.c*/
-    void display_info(clname_t *node, argd_t *, char *buffer);
-    void display_folder_name(char *path);
+    /*summary*/
+    void summarize(clname_t *cd_tree, int list);
 
 pid_t create_pid(int *fd);
 int count_nbrofnode(clname_t *cd_tree, int nbr, int *nbr_ofsuccess);
-void summarize(clname_t *cd_tree, int list);
 
 /*valgrind*/
 int add_valgrind(char **function, char *options);

@@ -24,7 +24,6 @@ char *locate_exec(argd_t *arg_data, char **env) {
 }
 
 char *search_in_current_directory(char *exec) {
-    printf("exec path : %s\n", exec);
     if (!access(exec, X_OK))
         return (strdup(exec));
     return (NULL);
